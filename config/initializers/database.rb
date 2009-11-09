@@ -1,6 +1,6 @@
 include MongoMapper
 
-# Settings for MongoHQ
+ Settings for MongoHQ
 if ['production', 'development'].include?(Rails.env)
   MongoMapper.connection = Mongo::Connection.new('db.mongohq.com')
   MongoMapper.database = 'brooklyn'
@@ -8,9 +8,6 @@ if ['production', 'development'].include?(Rails.env)
 else
   MongoMapper.database = "news-#{Rails.env}"
 end
-
-MongoMapper.database.create_collection("stories")
-MongoMapper.database = "news-#{Rails.env}"
 
 # It's also possible to define indexes in the the model itself; however,
 # a few issues are being worked out still. This is a temporary solution.

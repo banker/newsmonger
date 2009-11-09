@@ -1,0 +1,10 @@
+*.swp
+*.sw0
+.DS_Store
+**/.DS_Store
+log/*
+tmp/*
+tmp/**/*
+config/database.yml
+coverage/*
+coverage/**/*

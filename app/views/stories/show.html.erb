@@ -1,0 +1,85 @@
+<a href="<%= @story.url %>"><%= @story.title %></a>
+
+<% if current_user %>
+<table>
+  <tr>
+    <td>
+  <% form_tag comments_url do %>
+    <input type="hidden" name="comment[story_id]" value="<%= @story.id %>" />
+    <input type="hidden" name="comment[parent_id]" value="" />
+  <fieldset>
+  <legend>Leave a comment</legend>
+  <ol>
+    <li>
+      <label for="comment">Comment</label>
+      <textarea rows="7" cols="40" name="comment[body]"></textarea>
+    </li>
+    <li>
+      <input type="submit" value="Submit" /> 
+    </li>
+   </ol> 
+  </fieldset>
+  <% end %>
+</td>
+</tr>
+</table>
+<% else %>
+  <p>
+  <a href="<%= signin_url %>">Sign in</a> to leave a comment.</a>
+  </p>
+<% end %>
+
+<table>
+  <tr>
+    <td>
+  <% @comments.each do |comment| %>
+    <table class="comment" id="comment_<%= comment.id %>" style="margin-left: <%= comment.depth * 10 %>px; margin-bottom: <%= comment.depth == 1 ? '15px;' : '0px;'%>">
+      <tr>
+        <td>
+          <% unless current_user && comment.voters.include?(current_user.id) %>
+            <a href="javascript:void(0);" class="upvote_comment" id="upvote_<%= "#{comment.votes}_#{comment.id}" %>">^</a>
+          <% else %>
+            <a href="<%= signin_url %>">^</a>
+          <% end %>
+            <span class="comment_votes"><%= pluralize(comment.points, "point") %></span>
+            by <%= comment.username %> | <%= time_ago_in_words(comment.created_at) %> ago
+        </td>
+      </tr>
+      <tr class="body">
+        <td>
+          <%= comment.body %>
+        </td>
+      </tr>
+      <tr class="reply">
+        <td>
+          <% if current_user %>
+            <a href="javascript:void(0);" id="reply_<%= comment.id %>" class="comment_reply">reply</a> 
+          <% else %>
+            <a href="<%= signin_url %>">reply</a> 
+          <% end %>
+        </td>
+     </table>
+  <% end %>
+    </td>
+  </tr>
+</table>
+
+<div id="reply_template" style="display:none;">
+<form id="" action="<%= comments_url %>" method="post">
+  <div style="margin:0;padding:0;display:inline">
+    <input type="hidden" name="comment[story_id]" value="<%= @story.id %>" />
+    <input type="hidden" name="comment[parent_id]" class="reply_parent_id" value="" />
+  </div>
+<fieldset>
+<ol>
+  <li>
+    <label for="comment">Comment</label>
+    <textarea rows="7" cols="40" name="comment[body]"></textarea>
+  </li>
+  <li>
+    <input type="submit" value="Submit" /> 
+  </li>
+ </ol> 
+</fieldset>
+</form>
+</div>

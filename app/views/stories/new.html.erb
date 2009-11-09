@@ -1,0 +1,20 @@
+<h2>Submit a story</h2>
+<% form_tag stories_url do %>
+  <fieldset>
+  <ol>
+  <li>
+    <label>Story title: </label>
+    <input name="story[title]" value="<%= @story.title %>"/>
+  </li>
+
+  <li>
+    <label>Url</label>
+    <input name="story[url]" value="<%= @story.url %>"/>
+  </li>
+
+  <li>
+    <input type="submit" value="Post" />
+  </li>
+  </ol>
+  </fieldset>
+<% end %>

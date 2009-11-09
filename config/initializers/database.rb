@@ -1,13 +1,13 @@
 include MongoMapper
 
 # Settings for MongoHQ
-#if ['production', 'development'].include?(Rails.env)
-#  MongoMapper.connection = Mongo::Connection.new('db.mongohq.com')
-#  MongoMapper.database = ''
-#  MongoMapper.database.authenticate('', '')
-#else
-#  MongoMapper.database = "news-#{Rails.env}"
-#end
+if ['production', 'development'].include?(Rails.env)
+  MongoMapper.connection = Mongo::Connection.new('db.mongohq.com')
+  MongoMapper.database = 'brooklyn'
+  MongoMapper.database.authenticate('kyle', 'secret')
+else
+  MongoMapper.database = "news-#{Rails.env}"
+end
 
 MongoMapper.database = "news-#{Rails.env}"
 

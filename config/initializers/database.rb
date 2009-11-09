@@ -9,6 +9,7 @@ else
   MongoMapper.database = "news-#{Rails.env}"
 end
 
+MongoMapper.database.create_collection("stories")
 MongoMapper.database = "news-#{Rails.env}"
 
 # It's also possible to define indexes in the the model itself; however,

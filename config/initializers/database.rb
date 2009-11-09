@@ -1,6 +1,6 @@
 include MongoMapper
 
- Settings for MongoHQ
+# Settings for MongoHQ
 if ['production', 'development'].include?(Rails.env)
   MongoMapper.connection = Mongo::Connection.new('db.mongohq.com')
   MongoMapper.database = 'brooklyn'

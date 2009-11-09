@@ -14,8 +14,8 @@ class CommentsController < ApplicationController
   end
 
   def upvote
-    @story = Story.find(params[:id])
-    @story.upvote(current_user)
+    @comment = Comment.find(params[:id])
+    @comment.upvote(current_user)
     render :nothing => true
   end
 end

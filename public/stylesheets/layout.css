@@ -85,7 +85,8 @@ border-style: none;
   padding-bottom: 7px;
 }
 
-.comment .reply td {
+.comment .upvote td {
+  width: 10px;
 }
 
 .story .upvote {

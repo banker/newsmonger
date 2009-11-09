@@ -36,12 +36,14 @@
     <table class="comment" id="comment_<%= comment.id %>" style="margin-left: <%= comment.depth * 10 %>px; margin-bottom: <%= comment.depth == 1 ? '15px;' : '0px;'%>">
       <tr>
         <td>
-          <% unless current_user && comment.voters.include?(current_user.id) %>
-            <a href="javascript:void(0);" class="upvote_comment" id="upvote_<%= "#{comment.votes}_#{comment.id}" %>">^</a>
-          <% else %>
+          <% if !current_user %>
             <a href="<%= signin_url %>">^</a>
+          <% elsif !comment.voters.include?(current_user.id) %>
+          <span class="upvote">
+            <a href="javascript:void(0);" class="upvote_comment" id="upvote_<%= "#{comment.votes}_#{comment.id}" %>">^</a>
+          </span>
           <% end %>
-            <span class="comment_votes"><%= pluralize(comment.points, "point") %></span>
+            <span class="votes"><%= pluralize(comment.votes, "vote") %></span>
             by <%= comment.username %> | <%= time_ago_in_words(comment.created_at) %> ago
         </td>
       </tr>

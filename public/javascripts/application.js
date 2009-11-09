@@ -13,9 +13,9 @@ var upvoteComment = function() {
   var attrs = $(this).attr('id').split('_');
   var votes = parseInt(attrs[1]);
   var id    = attrs[2];
-  var story_id = '#story_' + id;
-  $(story_id).find('.votes').html((votes + 1) + ' votes');
-  $(story_id).find('.upvote').html(' &nbsp;');
+  var comment_id = '#comment_' + id;
+  $(comment_id).find('.votes').html((votes + 1) + ' votes');
+  $(comment_id).find('.upvote').html(' &nbsp;');
   $.post('/comments/' + id + '/upvote');
 }
 
@@ -31,6 +31,6 @@ var upvoteStory = function() {
 
 $(document).ready(function() {
   $('.comment_reply').click(handleReply);
-  $('.comment_upvote').click(upvoteComment);
+  $('.upvote_comment').click(upvoteComment);
   $('.upvote_story').click(upvoteStory);
 });

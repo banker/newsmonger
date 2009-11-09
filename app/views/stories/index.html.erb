@@ -6,10 +6,10 @@
     <table id="story_<%= story.id %>" class="story">
     <tr>
     <td class="upvote">
-      <% if current_user && story.voters.include?(current_user.id) %>
-        <a href="javascript:void(0);" class="upvote_story" id="upvote_<%= "#{story.votes}_#{story.id}" %>">^</a>
-      <% else %>
+      <% if !current_user %>
         <a href="<%= signin_url %>">^</a>
+      <% elsif !story.voters.include?(current_user.id) %>
+        <a href="javascript:void(0);" class="upvote_story" id="upvote_<%= "#{story.votes}_#{story.id}" %>">^</a>
       <% end %>
     </td>
     <td class="num"><%= index + 1 * @page %>. &nbsp;</td>

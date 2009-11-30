@@ -49,7 +49,7 @@ class CommentTest < ActiveSupport::TestCase
       end
 
       should "have a path equal to parent id" do 
-        assert_equal ":" + @comment.id, @reply.path
+        assert_equal ":" + @comment.id.to_s, @reply.path
       end
 
       should "have one vote" do 
@@ -69,7 +69,7 @@ class CommentTest < ActiveSupport::TestCase
         end
 
         should "have a path containing the parent's id" do 
-          assert_equal @reply.path + ":" + @reply.id, @rep.path
+          assert_equal @reply.path + ":" + @reply.id.to_s, @rep.path
         end
 
         should "have a depth of 2" do 
@@ -85,14 +85,14 @@ class CommentTest < ActiveSupport::TestCase
       @ten     = Factory(:comment, :body => "ten",    :votes => 600, :story_id => @story.id)
       @a       = Factory(:comment, :body => "a",      :votes => 2000, :story_id => @story.id)
       @one     = Factory(:comment, :body => "one",    :votes => 5, :story_id => @story.id)
-      @two     = Factory(:comment, :body => "two",    :parent_id => @one.id)
-      @b       = Factory(:comment, :body => "b",      :parent_id => @a.id, :votes => 5)
-      @three   = Factory(:comment, :body => "three",  :parent_id => @one.id, :votes => 15)
-      @c       = Factory(:comment, :body => "c",      :parent_id => @a.id, :votes => 50)
-      @twenty  = Factory(:comment, :body => "twenty", :votes => 5, :parent_id => @ten.id)
-      @thirty  = Factory(:comment, :body => "thirty", :parent_id => @ten.id, :votes => 400)
-      @forty   = Factory(:comment, :body => "forty",  :parent_id => @thirty.id, :votes => 23)
-      @fifty   = Factory(:comment, :body => "fifty",  :parent_id => @twenty.id, :votes => 2)
+      @two     = Factory(:comment, :body => "two",    :parent_id => @one.id.to_s)
+      @b       = Factory(:comment, :body => "b",      :parent_id => @a.id.to_s, :votes => 5)
+      @three   = Factory(:comment, :body => "three",  :parent_id => @one.id.to_s, :votes => 15)
+      @c       = Factory(:comment, :body => "c",      :parent_id => @a.id.to_s, :votes => 50)
+      @twenty  = Factory(:comment, :body => "twenty", :votes => 5, :parent_id => @ten.id.to_s)
+      @thirty  = Factory(:comment, :body => "thirty", :parent_id => @ten.id.to_s, :votes => 400)
+      @forty   = Factory(:comment, :body => "forty",  :parent_id => @thirty.id.to_s, :votes => 23)
+      @fifty   = Factory(:comment, :body => "fifty",  :parent_id => @twenty.id.to_s, :votes => 2)
     end
 
     should "display in vote/thread order" do

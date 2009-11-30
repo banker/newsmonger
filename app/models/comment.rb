@@ -8,8 +8,8 @@ class Comment
   key :path,       String,  :default => ""
 
   key :parent_id,  String
-  key :story_id,   String
-  key :user_id,    String
+  key :story_id,   ObjectId
+  key :user_id,    ObjectId
   key :username,   String
   timestamps!
 
@@ -45,9 +45,9 @@ class Comment
   def self.assemble(results, map)
     list = []
     results.each do |result|
-      if map[result.id]
+      if map[result.id.to_s]
         list << result
-        list += assemble(map[result.id], map)
+        list += assemble(map[result.id.to_s], map)
       else
         list << result
       end
@@ -57,7 +57,7 @@ class Comment
 
   # Upvote this comment.
   def upvote(user)
-    unless self.voters.include?(user.id)
+    unless self.voters.any? {|id| id.to_s == user.id.to_s}
       self.voters << user.id 
       self.votes += 1
       self.save
@@ -76,7 +76,7 @@ class Comment
 
   private
 
-  # Comment owner automatically upvoters.
+  # Comment owner automatically upvotes.
   def auto_upvote
     upvote(self.user)
   end
@@ -91,7 +91,7 @@ class Comment
       parent        = Comment.find(self.parent_id)
       self.story_id = parent.story_id
       self.depth    = parent.depth + 1
-      self.path     = parent.path + ":" + parent.id
+      self.path     = parent.path + ":" + parent.id.to_s
     end
     save
   end

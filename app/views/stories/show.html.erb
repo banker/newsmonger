@@ -69,7 +69,7 @@
 <div id="reply_template" style="display:none;">
 <form id="" action="<%= comments_url %>" method="post">
   <div style="margin:0;padding:0;display:inline">
-    <input type="hidden" name="comment[story_id]" value="<%= @story.id %>" />
+    <input type="hidden" name="comment[story_id]" value="<%= @story.id.to_s %>" />
     <input type="hidden" name="comment[parent_id]" class="reply_parent_id" value="" />
   </div>
 <fieldset>

@@ -72,18 +72,37 @@ class StoryTest < ActiveSupport::TestCase
         @user = Factory(:user)
       end
 
-      should "increment point when a user upvotes" do 
-        Story.upvote(@story, @user.id)
-        @story = Story.find(@story.id)
-        assert_equal 2, @story.votes
-        assert @story.voters.include?(@user.id)
+      context "using the upvote class method (fire and forget)" do 
+        setup do 
+          Story.upvote(@story.id, @user.id)
+          @story = Story.find(@story.id)
+        end
+ 
+        should "increment the votes" do 
+          assert_equal 2, @story.votes
+          assert @story.voters.include?(@user.id)
+        end
+
+        should "ignore upvote if user has already upvotes with class method" do 
+          Story.upvote(@story.id, @user.id)
+          @story = Story.find(@story.id)
+          assert_equal 2, @story.votes
+        end
       end
 
-      should "ignore upvote if user has already upvoted" do 
-        @story.upvote(@user)
-        assert_equal 2, @story.votes
-        @story.upvote(@user)
-        assert_equal 2, @story.votes
+      context "using the upvote instance method" do 
+        setup do 
+          @story.upvote(@user)
+        end
+
+        should "increment point when user upvotes with instance method" do 
+          assert_equal 2, @story.votes
+        end
+
+        should "ignore upvote if user has already upvoted" do 
+          @story.upvote(@user)
+          assert_equal 2, @story.votes
+        end
       end
 
       should "ignore update if user who posted tries to vote" do

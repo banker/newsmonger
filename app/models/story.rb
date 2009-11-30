@@ -13,7 +13,7 @@ class Story
   key :username,      String
 
   # Note this: ids are strings, not integers.
-  key :user_id,   String
+  key :user_id,   ObjectId
   timestamps!
 
   # Relationships.
@@ -43,7 +43,7 @@ class Story
   
   # Upvote this story.
   def upvote(user)
-    unless self.voters.include?(user.id)
+    unless self.voters.any? {|id| id.to_s == user.id.to_s}
       self.voters << user.id 
       self.votes += 1
       self.relevance = calculate_relevance unless new_record?

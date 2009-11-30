@@ -8,7 +8,7 @@ class StoriesController < ApplicationController
 
   def index
     @page    = (params[:page] || 1).to_i
-    @stories = Story.paginate(:page => @page, :per_page => 2)
+    @stories = Story.paginate(:page => @page, :per_page => 15)
   end
 
   def show
@@ -26,9 +26,10 @@ class StoriesController < ApplicationController
     end
   end
 
+  # Uses the class method of upvote to fire and forget.
   def upvote
-    @story = Story.find(params[:id])
-    @story.upvote(current_user)
+    story_id = Mongo::ObjectID.from_string(params[:id])
+    Story.upvote(story_id, current_user.id)
     render :nothing => true
   end
 end
